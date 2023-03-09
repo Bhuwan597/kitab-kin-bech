@@ -1,0 +1,209 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KitabKinBech.com - Register</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3//jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"
+        integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css"
+        integrity="sha512-EZSUkJWTjzDlspOoPSpUFR0o0Xy7jdzW//6qhUkoZ9c4StFkVsp9fbbd0O06p9ELS3H486m4wmrCELjza4JEog=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="flex min-h-[100vh] flex-col justify-center items-center relative">
+    <div id="loading" class="w-[100%] h-[100vh] min-h-[100vh] flex justify-center items-center">
+        <img src="{% static 'images/loader.gif' %}" alt="">
+       </div>
+        <script>
+            $(window).on('load', function(){
+                console.log("Hoo")
+                $("#loading").hide()
+            })
+        </script>
+    {% if messages %}
+    {% for message in messages %}
+{{ message }}
+    {% endfor %}
+{% endif %}
+    <div
+        class="login flex flex-col justify-center items-center shadow-2xl p-4 w-[100%] md:w-[70%] border-t-[30px] border-yellow-400 rounded-t-lg mb-8">
+        <h1 class="text-2xl font-semibold bg-purple-600 text-white p-3 rounded">Register to <a href="" class="font-bold"> KitabKinBech.<span class="text-sm text-yellow-400">com</span></a></h1>
+        
+        
+        <div class="mt-4 hidden" id="close">
+            <div class="flex items-center bg-red-500 border-l-4 border-red-700 py-2 px-3 shadow-md mb-2">
+                <!-- icons -->
+                <div class="text-red-500 rounded-full bg-white mr-3">
+                    <svg onclick="$('#close').hide()" width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-x"
+                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z" />
+                        <path fill-rule="evenodd"
+                            d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z" />
+                    </svg>
+                </div>
+                <div class="text-white max-w-xs ">
+                    Invalid Form Details
+                </div>
+            </div>
+        </div>
+        <form id="createuserform" action="{% url 'registration' %}" method="post"
+            class="mt-8 w-[100%] flex md:w-[100%] flex-wrap gap-4" enctype="multipart/form-data" onsubmit="return validate()">
+            {% csrf_token %}
+            <div class="form-input bg-gray-100 p-4 w-[100%] md:w-[47%] rounded-xl mb-4 relative">
+                <label for="name" class="absolute right-0 p-3 text-xl"><i class="bx bxs-pencil"></i></label>
+                <input type="text" name="name" id="name" placeholder="Name . . . . "
+                    class="w-[100%] text-xl bg-gray-100 border-none outline-none h-[40px] pr-5" required maxlength="30">
+            </div>
+            <div class="form-input bg-gray-100 p-4 w-[100%] md:w-[47%] rounded-xl mb-4 relative" id="email_div">
+                <label for="email" class="absolute right-0 p-3 text-xl"><i class="bx bxs-envelope"></i></label>
+                <input type="email" name="email" id="email" placeholder="Email . . . . "
+                    class="w-[100%] text-xl bg-gray-100 border-none outline-none h-[40px] pr-5" required maxlength="30"
+                    oninput="checkemail(this.value)">
+            </div>
+            <div class="form-input bg-gray-100 p-4 w-[100%] md:w-[47%] rounded-xl mb-4 relative" id="phone_div">
+                <label for="phone" class="absolute right-0 p-3 text-xl"><i class="bx bxs-phone"></i></label>
+                <input type="tel" name="phone" id="phone" placeholder="Phone . . . . "
+                    class="w-[100%] text-xl bg-gray-100 border-none outline-none h-[40px] pr-5" required size='10'
+                    minlength="10" maxlength="10" onchange="checknumber(this.value)">
+            </div>
+            <div class="form-input bg-gray-100 p-4 w-[100%] md:w-[47%] rounded-xl mb-4 relative">
+                <label for="address" class="absolute right-0 p-3 text-xl"><i class="bx bxs-map-pin"></i></label>
+                <input type="text" name="address" id="address" placeholder="Address . . . . "
+                    class="w-[100%] text-xl bg-gray-100 border-none outline-none h-[40px] pr-5" required maxlength="20">
+            </div>
+            <div class="form-input bg-gray-100 p-4 w-[100%] md:w-[47%] rounded-xl mb-4 relative" id="password_div">
+                <label for="password" class="absolute right-0 p-3 text-xl"><i class='bx bxs-lock'></i></label>
+                <input type="password" name="password" id="password" placeholder="Password . . . . "
+                    class="w-[100%] text-xl bg-gray-100 border-none outline-none h-[40px]  pr-5" required
+                    oninput="checkpassword(this.value, document.querySelector('#confirm_password').value)"
+                    maxlength="30">
+            </div>
+            <div class="form-input bg-gray-100 p-4 w-[100%] md:w-[47%] rounded-xl mb-4 relative"
+                id="confirm_password_div">
+                <label for="confirm_password" class="absolute right-0 p-3 text-xl"><i class='bx bxs-lock'></i></label>
+                <input type="password" name="confirm_password" id="confirm_password"
+                    placeholder="Confirm Password . . . . "
+                    class="w-[100%] text-xl bg-gray-100 border-none outline-none h-[40px]  pr-5"
+                    oninput="checkpassword( document.querySelector('#password').value,this.value)" maxlength="30">
+            </div>
+            <div class="form-input bg-gray-100 p-4 w-[100%] rounded-xl mb-4 relative">
+                <input type="file" accept="image/*" name="profile" id="profile" class="dropify" required
+                    data-height="300" data-show-loader="true" data-show-errors="true"
+                    data-allowed-file-extensions="jpg png jpeg gif" data-max-file-size="2M" data-show-remove="true">
+                <label for="profile" class="text-blue-400">Upload your profile picutre. (.jpg, .png, .jpeg, .gif, .webp
+                    format less than 2mb.)</label>
+            </div>
+            <div class="flex gap-2 justify-start items-center">
+                <input type="checkbox" name="is_seller" id="is_seller"
+                    class="text-xl bg-gray-100 border-none outline-none  pr-5" value="True">
+                <p class="text-xl font-medium">Register as a seller.</p>
+            </div>
+            <button type="submit"
+                class="w-[100%] mt-4 px-4 py-2 rounded bg-yellow-400 text-white text-xl font-semibold hover:bg-yellow-500">Register
+                Now</button>
+        </form>
+        <a class="mt-4" href=" {% url 'login' %}">Already Registered? <span
+                class="underline text-indigo-700 font-semibold">Login Now</span></a>
+    </div>
+
+
+    <script>
+        $(document).ready(function () {
+            $('.dropify').dropify(
+                {
+                    messages: {
+                        'default': 'Drag and drop a file here or click',
+                        'replace': 'Drag and drop or click to replace',
+                        'remove': 'Remove',
+                        'error': 'Ooops, something wrong happended.'
+                    },
+                    error: {
+                        'fileSize': 'The file size is too big (2Mb max).',
+                        'imageFormat': 'The image format is not allowed (png, gif, jpg, jpeg only).'
+                    }
+                }
+            )
+        })
+        drEvent.on('dropify.beforeClear', function (event, element) {
+            return confirm("Do you really want to delete \"" + element.filename + "\" ?");
+        });
+    </script>
+    <script>
+        function checkpassword(password, confirm_password) {
+            password_div = document.getElementById("password_div")
+            confirm_password_div = document.getElementById("confirm_password_div")
+            if (password == '' || confirm_password == "") {
+                password_div.classList.remove("border-2", "border-green-400");
+                confirm_password_div.classList.remove("border-2", "border-green-400");
+                password_div.classList.add("border-2", "border-red-400");
+                confirm_password_div.classList.add("border-2", "border-red-400");
+                return false
+            }
+            else if (password !== confirm_password) {
+                password_div.classList.remove("border-2", "border-green-400");
+                confirm_password_div.classList.remove("border-2", "border-green-400");
+                password_div.classList.add("border-2", "border-red-400");
+                confirm_password_div.classList.add("border-2", "border-red-400");
+                return false
+            } else {
+                password_div.classList.remove("border-2", "border-red-400");
+                confirm_password_div.classList.remove("border-2", "border-red-400");
+                password_div.classList.add("border-2", "border-green-400");
+                confirm_password_div.classList.add("border-2", "border-green-400");
+                return true
+            }
+        }
+        function checknumber(number) {
+            phone_div = document.getElementById("phone_div")
+            if (number.length == 10 && (/^\d+$/.test(number)) && (number.toString()).slice(0, 1) == '9') {
+                phone_div.classList.remove("border-2", "border-red-400");
+                phone_div.classList.add("border-2", "border-green-400");
+                return true;
+            } else {
+                phone_div.classList.remove("border-2", "border-green-400");
+                phone_div.classList.add("border-2", "border-red-400");
+                return false;
+            }
+        }
+        function checkemail(email) {
+            email_div = document.getElementById('email_div')
+            if (email.slice(-10) !== '@gmail.com') {
+                email_div.classList.remove("border-2", "border-green-400");
+                email_div.classList.add("border-2", "border-red-400");
+                return false
+            } else {
+                email_div.classList.remove("border-2", "border-red-400");
+                email_div.classList.add("border-2", "border-green-400");
+                return true
+            }
+        }
+    </script>
+    <script>
+        function validate() {
+            password_return = checkpassword($("#password").val(), $("#confirm_password").val())
+            number_return = checknumber($("#phone").val())
+            email_return = checkemail($("#email").val())
+            if (!password_return || !number_return || !email_return) {
+                document.body.scrollTop = 0; // For Safari
+                document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+                $("#close").show()
+                return false
+            } else {
+                $("#close").hide()
+                return true
+            }
+        }
+    </script>
+</body>
+
+</html>

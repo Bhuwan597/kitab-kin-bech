@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-gray-200">
+   <div id="loading" class="w-[100%] h-[100vh] min-h-[100vh] flex justify-center items-center">
+    <img class="w-[50%]" src="{% static 'images/loader.gif' %}" alt="">
+   </div>
+    <script>
+        $(window).on('load', function(){
+            console.log("Hoo")
+            $("#loading").hide()
+        })
+    </script>
+    <header class="absolute top-0">
+        <div class="navbar_top z-[1000] border-b-2 border-yellow-500">
+            <div class="navbar-container">
+                <div class="left">
+                    <p class="font-light text-sm text-white">Buy <span id="multi-text"></span> </p>
+                    <span class="logo">KitabKinBech<span class="sub-logo">.com</span></span>
+                </div>
+                <div class="right">
+                    <div class="search-box">
+                        <form action="/search" method="get">
+                            <input type="search" name="query" id="query" required
+                                placeholder="Search Books . . . . . . . . . . ."
+                                aria-placeholder="Search Books . . . . .">
+                            <button type="submit" class="search-btn"><i
+                                    class='bx bx-sm bx-search-alt-2'></i></i></button>
+                        </form>
+                    </div>
+                    {% if request.session.email and request.session.is_seller %}
+                    <div class="buttons">
+                        <a href="/dashboard" class="login-btn">Dashboard <i class='bx bx-sm bxs-dashboard'></i></a>
+                    </div>
+                    {% elif request.session.email %}
+                    <div class="buttons">
+                        <a href="/logout" class="login-btn">Logout <i class='bx bx-sm bxs-exit'></i></a>
+                    </div>
+                    {% else %}
+                    <div class="buttons">
+                        <a href="{% url 'login' %}" class="login-btn">Login <i class='bx bx-sm bxs-user-circle'></i></a>
+                    </div>
+                    {% endif %}
+                </div>
+                <span id="menu"><i class='bx bx-menu'></i></span>
+            </div>
+        </div>
+    </header>
+    {% block body %}
+
+    {% endblock body %}
+
+    <footer class="bg-[#7A3E65] flex flex-col lg:flex-row lg:items-start text-white justify-center items-center">
+        <div class="info flex flex-col lg:flex-row justify-between justify-center lg:h-[300px] items-center p-2 gap-2">
+            <a class="logo text-2xl w-[100%] font-medium my-4 text-center bg-sky-600 p-4 rounded-2xl hover:bg-sky-700"
+                href="#">KitabKinBech<span class="text-yellow-400 text-sm">.com</span></a>
+            <p class="description w-[100%] text-center mt-4 font-light text-medium">KitabKinBech.com is an online
+                platform to buy and sell second hand and old books. We also offer you to buy and sell Handwritten as
+                well as online notes.</p>
+        </div>
+        <div class="links flex flex-col justify-center items-center gap-2 w-[100%] px-4 mb-6">
+            <h3 class="font-bold border-b-2 w-[100%] text-center text-2xl p-3 mb-3 text-yellow-400"><i
+                    class='bx bx-sm bx-play'></i> Services</h3>
+            <a class="font-light text-medium hover:text-yellow-400" href="#">Text Books</a>
+            <a class="font-light text-medium hover:text-yellow-400" href="#">Guide and Guess Papers</a>
+            <a class="font-light text-medium hover:text-yellow-400" href="#">Religious Books</a>
+            <a class="font-light text-medium hover:text-yellow-400" href="#">Handwritten Notes</a>
+            <a class="font-light text-medium hover:text-yellow-400" href="#">Courses</a>
+            <a class="font-light text-medium hover:text-yellow-400" href="#">Reference Books</a>
+            <a class="font-light text-medium hover:text-yellow-400" href="#">Motivational Books</a>
+            <a class="font-light text-medium hover:text-yellow-400" href="#">Other Books</a>
+        </div>
+        <div class="contact flex flex-col justify-center items-center gap-4 w-[100%] px-4 mb-6">
+            <h3 class="font-bold border-b-2 w-[100%] text-center text-2xl p-3 mb-3 text-yellow-400"><i
+                    class='bx bx-sm bx-signal-5'></i> Reach to us</h3>
+            <a class="flex flex-row justify-start items-center gap-4 font-light text-medium  hover:text-yellow-400"
+                href="#"><i class='bx bx-sm bx-home'></i>Dhangadhi, Kailali</a>
+            <a class="flex flex-row justify-start items-center gap-4 font-light text-medium  hover:text-yellow-400"
+                href="#"><i class='bx bx-sm bx-envelope'></i>kitabkinbech@gmail.com</a>
+            <a class="flex flex-row justify-start items-center gap-4 font-light text-medium  hover:text-yellow-400"
+                href="#"><i class='bx bx-sm bxs-phone-call'></i>01 3291443</a>
+            <a class="flex flex-row justify-start items-center gap-4 font-light text-medium  hover:text-yellow-400"
+                href="#"><i class='bx bx-sm bx-phone'></i>9854544554</a>
+
+        </div>
+    </footer>
+    <div
+        class="last-footer inline-block w-full bg-yellow-600 flex justify-center items-center py-8 text-center text-medium text-white">
+        <p class="font-bold"> &copy; 2023 All Rights Reserved: <a href="#"
+                class="underline text-sm">KitabKinBech.com</a> </p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="{% static 'js/navbar.js' %}">
+    </script>
+</body>
+
+</html>

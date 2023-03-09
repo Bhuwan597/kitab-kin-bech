@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="relative flex w-full flex-col gap-4 bg-gray-200 p-8">
+      <div class="container rounded bg-white p-8 shadow-2xl">
+        <a class="text-xl font-bold" href="">KitabKinBech.<span class="text-yellow-400">com</span></a>
+        <div class="">
+          <h1 class="mt-2 border-b-2 border-black p-4 text-center text-xl font-semibold">Account Verification</h1>
+          <p class="p-4 text-lg">Your account for <span class="font-semibold">{{name}}</span> has been verified. You can now <a class="font-medium underline" href="/login">login</a> into your account.</p>
+          <p class="float-right">
+            <span class="font-bold">Verified on: </span> {{date_time}}</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
