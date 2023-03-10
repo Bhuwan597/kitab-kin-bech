@@ -27,11 +27,13 @@
             <div class="navbar-container">
                 <div class="left">
                     <p class="font-light text-sm text-white">Buy <span id="multi-text"></span> </p>
+                    <a href="/">
                     <span class="logo">KitabKinBech<span class="sub-logo">.com</span></span>
+                    </a>
                 </div>
                 <div class="right">
                     <div class="search-box">
-                        <form action="/search" method="get">
+                        <form action="{% url 'search' %}" method="get">
                             <input type="search" name="query" id="query" required
                                 placeholder="Search Books . . . . . . . . . . ."
                                 aria-placeholder="Search Books . . . . .">
@@ -41,11 +43,11 @@
                     </div>
                     {% if request.session.email and request.session.is_seller %}
                     <div class="buttons">
-                        <a href="/dashboard" class="login-btn">Dashboard <i class='bx bx-sm bxs-dashboard'></i></a>
+                        <a href="/dashboard/{{ request.session.seller_slug }}" class="login-btn">Dashboard <i class='bx bx-sm bxs-dashboard'></i></a>
                     </div>
                     {% elif request.session.email %}
                     <div class="buttons">
-                        <a href="/logout" class="login-btn">Logout <i class='bx bx-sm bxs-exit'></i></a>
+                        <a href="{% url 'logout' %}" class="login-btn">Logout <i class='bx bx-sm bxs-exit'></i></a>
                     </div>
                     {% else %}
                     <div class="buttons">
@@ -60,7 +62,17 @@
     {% block body %}
 
     {% endblock body %}
-
+    <div class="follow-us w-[100%] flex justify-between items-center gap-4">
+        <div class="text-xl font-bold ml-4">Follow us:</div>
+        <div class="icons flex flex-row gap-4 p-4">
+            <a class="bg-blue-500 text-white p-3 flex justify-center items-center hover:bg-blue-700 rounded-[50%]"
+                href="#"><i class="bx bx-sm bxl-facebook"></i></a>
+            <a class="bg-blue-400 text-white p-3 flex justify-center items-center hover:bg-blue-500 rounded-[50%]"
+                href="#"><i class="bx bx-sm bxl-twitter"></i></a>
+            <a class="bg-red-500 text-white p-3 flex justify-center items-center hover:bg-red-700 rounded-[50%]"
+                href="#"><i class="bx bx-sm bxl-instagram-alt"></i></a>
+        </div>
+    </div>
     <footer class="bg-[#7A3E65] flex flex-col lg:flex-row lg:items-start text-white justify-center items-center">
         <div class="info flex flex-col lg:flex-row justify-between justify-center lg:h-[300px] items-center p-2 gap-2">
             <a class="logo text-2xl w-[100%] font-medium my-4 text-center bg-sky-600 p-4 rounded-2xl hover:bg-sky-700"

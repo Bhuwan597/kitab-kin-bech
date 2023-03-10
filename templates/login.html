@@ -1,62 +1,209 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KitabKinBech.com - Login</title>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-</head>
-<body class="flex min-h-[100vh] flex-col justify-center items-center">
-    <div id="loading" class="w-[100%] h-[100vh] min-h-[100vh] flex justify-center items-center">
-        <img class="w-[50%]" src="{% static 'images/loader.gif' %}" alt="">
-       </div>
-        <script>
-            $(window).on('load', function(){
-                console.log("Hoo")
-                $("#loading").hide()
-            })
-        </script>
-    <div class="login flex flex-col justify-center items-center shadow-2xl p-4 w-[100%] md:w-[70%] border-t-[30px] border-yellow-400 rounded-t-lg">
-        <h1 class="text-2xl font-semibold bg-purple-600 text-white p-3 rounded">Login to <a href="" class="font-bold"> KitabKinBech.<span class="text-sm text-yellow-400">com</span></a></h1>
-        {% if messages %}
-        {% for message in messages %}
-        <div class="mt-4" id="close">
-            <div class="flex items-center bg-red-500 border-l-4 border-red-700 py-2 px-3 shadow-md mb-2">
-                <!-- icons -->
-                <div class="text-red-500 rounded-full bg-white mr-3">
-                    <svg onclick="$('#close').hide()" width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-x"
-                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z" />
-                        <path fill-rule="evenodd"
-                            d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z" />
-                    </svg>
-                </div>
-                <div class="text-white max-w-xs ">
-                    {{ message }}
-                </div>
-            </div>
+    <script
+      src="https://code.jquery.com/jquery-3.6.3.min.js"
+      integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body class="flex min-h-[100vh] flex-col justify-center items-center">
+    <div
+      id="loading"
+      class="w-[100%] h-[100vh] min-h-[100vh] flex justify-center items-center"
+    >
+      <img class="w-[50%]" src="{% static 'images/loader.gif' %}" alt="" />
+    </div>
+    <script>
+      $(window).on("load", function () {
+        console.log("Hoo");
+        $("#loading").hide();
+      });
+    </script>
+    <div
+      class="login flex flex-col justify-center items-center shadow-2xl p-4 w-[100%] md:w-[70%] border-t-[30px] border-yellow-400 rounded-t-lg"
+    >
+      <h1 class="text-2xl font-semibold bg-purple-600 text-white p-3 rounded">
+        Login to
+        <a href="/" class="font-bold">
+          KitabKinBech.<span class="text-sm text-yellow-400">com</span></a
+        >
+      </h1>
+      {% if messages %} {% for message in messages %}
+      <div class="mt-4" id="close">
+        <div
+          class="flex items-center bg-red-500 border-l-4 border-red-700 py-2 px-3 shadow-md mb-2"
+        >
+          <!-- icons -->
+          <div class="text-red-500 rounded-full bg-white mr-3">
+            <svg
+              onclick="$('#close').hide()"
+              width="1.8em"
+              height="1.8em"
+              viewBox="0 0 16 16"
+              class="bi bi-x"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"
+              />
+            </svg>
+          </div>
+          <div class="text-white max-w-xs">{{ message }}</div>
         </div>
-        {% endfor %}
-        {% endif %}
-    <form action="{% url 'handleLogin' %}" method="post" class="mt-8 w-[80%] md:w-[50%]">
+      </div>
+      {% endfor %} {% endif %}
+      <form
+        action="{% url 'handleLogin' %}"
+        method="post"
+        class="mt-8 w-[80%] md:w-[50%]"
+      >
         {% csrf_token %}
-    <div class="form-input bg-gray-100 p-4 w-[100%] rounded-xl mb-4 relative">
-        <label for="email" class="absolute right-0 p-3 text-xl"><i class="bx bxs-envelope"></i></label>
-        <input type="email" name="email" id="email" placeholder="Email . . . . " class="w-[100%] text-xl bg-gray-100 border-none outline-none h-[40px] pr-5">
+        <div
+          class="form-input bg-gray-100 p-4 w-[100%] rounded-xl mb-4 relative"
+        >
+          <label for="email" class="absolute right-0 p-3 text-xl"
+            ><i class="bx bxs-envelope"></i
+          ></label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email . . . . "
+            class="w-[100%] text-xl bg-gray-100 border-none outline-none h-[40px] pr-5"
+          />
+        </div>
+        <div
+          class="form-input bg-gray-100 p-4 w-[100%] rounded-xl mb-4 relative"
+        >
+          <label for="password" class="absolute right-0 p-3 text-xl"
+            ><i class="bx bxs-lock"></i
+          ></label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password . . . . "
+            class="w-[100%] text-xl bg-gray-100 border-none outline-none h-[40px] pr-5"
+          />
+        </div>
+        <a
+          href="#!"
+          onclick="modaltoggle()"
+          class="float-right underline text-indigo-700 font-semibold"
+          >Forgot your password?</a
+        >
+        <button
+          type="submit"
+          class="w-[100%] mt-4 px-4 py-2 rounded bg-yellow-400 text-white text-xl font-semibold hover:bg-yellow-500"
+        >
+          Login
+        </button>
+      </form>
+      <a class="mt-4" href="{% url 'register' %}"
+        >Not Registered yet?
+        <span class="underline text-indigo-700 font-semibold">
+          Register Now</span
+        ></a
+      >
     </div>
-    <div class="form-input bg-gray-100 p-4 w-[100%] rounded-xl mb-4 relative">
-        <label for="password" class="absolute right-0 p-3 text-xl"><i class='bx bxs-lock'></i></label>
-        <input type="password" name="password" id="password" placeholder="Password . . . . " class="w-[100%] text-xl bg-gray-100 border-none outline-none h-[40px]  pr-5">
+
+    <div
+      data-te-modal-init
+      class="fixed top-0 left-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
+      id="exampleModalCenter"
+      tabindex="-1"
+      aria-labelledby="exampleModalCenterTitle"
+      aria-modal="true"
+      role="dialog"
+    >
+      <div
+        data-te-modal-dialog-ref
+        class="pointer-events-none relative flex min-h-[calc(100%-1rem)] w-auto translate-y-[-50px] items-center opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:min-h-[calc(100%-3.5rem)] min-[576px]:max-w-[500px]"
+      >
+        <div
+          class="pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-200"
+        >
+          <div
+            class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50"
+          >
+            <h5
+              class="text-xl font-medium leading-normal text-yellow-500"
+              id="exampleModalScrollableLabel"
+            >
+              Reset Password
+            </h5>
+            <button
+              type="button"
+              class="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+              data-te-modal-dismiss
+              aria-label="Close"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="h-6 w-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+          <form action="{% url 'handlePasswordReset' %}" class="p-4" method="post">
+            {% csrf_token %}
+            <div
+              class="form-input bg-gray-100 p-4 w-[100%] rounded-xl mb-4 relative"
+            >
+              <label for="reset_email" class="absolute right-0 p-3 text-xl"
+                ><i class="bx bxs-envelope"></i
+              ></label>
+              <input
+                type="email"
+                name="reset_email"
+                id="reset_email"
+                placeholder="Enter email to reset . . . . "
+                class="w-[100%] text-xl bg-gray-100 border-none outline-none h-[40px] pr-5"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              class="w-[100%] mt-4 px-4 py-2 rounded bg-blue-400 text-white text-xl font-semibold hover:bg-blue-500"
+            >
+              Send me reset link
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
-    <a href="#" class="float-right underline text-indigo-700 font-semibold">Forgot your password?</a>
-    <button type="submit" class="w-[100%] mt-4 px-4 py-2 rounded bg-yellow-400 text-white text-xl font-semibold hover:bg-yellow-500">Login</button>
-</form>
-        <a class="mt-4" href="{% url 'register' %}">Not Registered yet? <span class="underline text-indigo-700 font-semibold"> Register Now</span></a>
-    </div>
-</body>
+
+    <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
+    <script>
+      function modaltoggle() {
+        $("#exampleModalCenter").modal("toggle");
+      }
+    </script>
+  </body>
 </html>

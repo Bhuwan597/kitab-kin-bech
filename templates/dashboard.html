@@ -1,0 +1,57 @@
+{% extends 'dashboard_base.html' %}
+{% block title %}{{ seller.seller_slug}} - KitabKinBech.com{% endblock title %}
+{% block body %}
+      <!-- Content -->
+      <div class="flex-1 px-2 sm:px-0">
+        <div class="flex justify-between items-center">
+          <h3 class="text-3xl font-extralight text-white/50">{{ seller.name}}</h3>
+          <div class="flex justify-center items-center">
+            <img class="rounded-full w-[80px] h-[80px]" src="{{ seller.profile_photo.url}}" alt="">
+        </div>
+        </div>
+        <br>
+        <hr>
+        <div class="mb-10 sm:mb-0 mt-10 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+         
+         
+            <div class="group bg-gray-900/30 py-20 px-4 flex flex-col justify-center space-y-2 items-center cursor-pointer rounded-md hover:bg-gray-900/40 hover:smooth-hover">
+            <a class="bg-gray-900/70 text-white/50 group-hover:text-white group-hover:smooth-hover flex w-20 h-20 rounded-full items-center justify-center" href="/dashboard/{{seller.seller_slug}}/create">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+            </a>
+            <a class="text-white/50 group-hover:text-white group-hover:smooth-hover text-center" href="/dashboard/{{seller.seller_slug}}/create">Add a Book</a>
+          </div>
+
+{% for book in books %}
+          <div class="relative group bg-gray-900 py-10 sm:py-20 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md hover:bg-gray-900/80 hover:smooth-hover">
+            <img class="w-40 h-40 object-cover object-center rounded-full" src="{{book.book_cover_photo.url}}" alt="Mathematics" />
+            <h4 class="text-white text-2xl font-bold capitalize text-center">{{book.book_name}}</h4>
+            <p class="text-white/50">Mp:{{book.book_mp}}  Sp:{{book.book_sp}}  Discount:{{book.book_discount}}%</p>
+            <p class="text-white/50">{{book.book_category}}</p>
+            <p class="text-white/50">Added on: {{book.date_of_added}}</p>
+            {% if book.book_status == 'In Stock' %}
+            <a href="/dashboard/bhuwan-acharya-upadhyaya/remove-stock/{{book.book_slug}}" class="bg-yellow-400 px-4 py-2 rounded text-white font-medium hover:bg-yellow-500 text-xl">Sold? Remove from stock</a>
+            {% else %}
+            <a href="/dashboard/bhuwan-acharya-upadhyaya/in-stock/{{book.book_slug}}" class="bg-green-400 px-4 py-2 rounded text-white font-medium hover:bg-green-500 text-xl">Add to stock</a>
+            {% endif %}
+
+            {% if book.book_status == 'In Stock' %}
+            <p class="absolute top-2 text-white/20 inline-flex items-center text-xs"> {{book.book_status}} <span class="ml-2 w-2 h-2 block bg-green-500 rounded-full group-hover:animate-pulse"></span></p>
+            {% else %}
+            <p class="absolute top-2 text-white/20 inline-flex items-center text-xs"> {{book.book_status}} <span class="ml-2 w-2 h-2 block bg-red-500 rounded-full group-hover:animate-pulse"></span></p>
+            {% endif %}
+          </div>
+
+
+{% endfor %}
+
+
+
+
+
+
+
+        </div>
+      </div>
+{% endblock body %}

@@ -24,17 +24,20 @@ class UserProfile(models.Model):
         return self.name
 
 class Book(models.Model):
-    seller = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    def fileName(instance,filename):
+        return '/'.join(['book_images', filename])
+    seller = models.ForeignKey(UserProfile, on_delete=models.DO_NOTHING)
     book_name = models.CharField(max_length=30, default=None)
-    book_slug = models.CharField(max_length=100, default=None)
+    book_slug = AutoSlugField(populate_from='book_name', unique = True, null=True, default= None)
     book_description = models.CharField(max_length=50, default=None)
     book_category = models.CharField(max_length=40, default=None)
+    book_category_slug = AutoSlugField(populate_from='book_category', unique = True, null=True, default= None)
     book_mp = models.CharField(max_length=10, default=None)
     book_discount = models.CharField(max_length=10, default=None)
     book_sp = models.CharField(max_length=10, default=None)
     book_location = models.CharField(max_length=40, default=None)
-    book_cover_photo = models.CharField(max_length=200, default=None)
-    date_of_added = models.CharField(max_length=40, default='')
+    book_cover_photo = models.ImageField(upload_to=fileName, blank=True)
+    date_of_added = models.CharField(max_length=40, default=datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
     book_status = models.CharField(max_length=30, default='In Stock')
 
     def __str__(self):

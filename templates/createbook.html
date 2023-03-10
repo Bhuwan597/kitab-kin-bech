@@ -1,0 +1,98 @@
+{% extends 'dashboard_base.html' %}
+{% block title %}Add a book{% endblock title %}
+{% block body %}
+            <!-- Content -->
+            <div class="flex-1 px-2 sm:px-0">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-3xl font-extralight text-white/50">{{seller.name}}</h3>
+                    <div class="flex justify-center items-center">
+                        <img class="rounded-full w-[80px] h-[80px]"
+                            src="{{seller.profile_photo.url}}"
+                            alt="">
+                    </div>
+                </div>
+                <br>
+                <hr>
+                <div class="book-add-form mt-4">
+                    <h2 class="text-2xl font-semibold bg-yellow-400 p-2 rounded">Add a Book</h2>
+                    <form action="" method="post" class="flex justify-start md:justify-center items-center flex-col md:flex-row md:flex-wrap gap-2" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-input bg-gray-100 p-4 w-[100%] rounded-xl mt-4 mb-4 relative basis-[49%]">
+                            <label for="book_name" class="absolute right-0 p-3 text-xl"><i class="bx bx-sm bxs-pencil"></i></label>
+                            <input type="text" name="book_name" id="book_name" placeholder="Book name . . . Maximum 30 characters " class="w-[100%] text-xl bg-gray-100 border-none outline-none h-[40px] pr-5" maxlength="30">
+                        </div>
+                        <div class="form-input bg-gray-100 p-4 w-[100%] rounded-xl mt-4 mb-4 relative basis-[49%]">
+                            <label for="book_description" class="absolute right-0 p-3 text-xl"><i class="bx bx-sm bxs-comment"></i></label>
+                            <input type="text" name="book_description" id="book_description" placeholder="Book description . . . Maximum 50 characters " class="w-[100%] text-xl bg-gray-100 border-none outline-none h-[40px] pr-5" maxlength="40">
+                        </div>
+                        <div class="form-input bg-gray-100 p-4 w-[100%] rounded-xl mt-4 mb-4 relative basis-[49%]">
+                            <label for="book_category" class="absolute right-0 p-3 text-xl"><i class="bx bxs-purchase-tag"></i></label>
+                            <select name="book_category" id="book_category" placeholder="Book category" class="w-[100%] text-xl bg-gray-100 border-none outline-none h-[40px] pr-5">
+                                <option selected disabled value="">Choose a book category.</option>
+                                <option name="book_category" value="Text Books">Text Books</option>
+                                <option name="book_category" value="Reference Books">Reference Books</option>
+                                <option name="book_category" value="Guide and Guess Papers">Guide and Guess Papers</option>
+                                <option name="book_category" value="Handwritten Notes">Handwritten Notes</option>
+                                <option name="book_category" value="Courses">Courses</option>
+                                <option name="book_category" value="Religious Books">Religious Books</option>
+                                <option name="book_category" value="Motivational Books">Motivational Books</option>
+                                <option name="book_category" value="Other Books">Other Books</option>
+                                </select>
+                        </div>
+                        <div class="form-input bg-gray-100 p-4 w-[100%] rounded-xl mt-4 mb-4 relative basis-[49%]">
+                            <label for="book_price" class="absolute right-0 p-3 text-xl"><i class="bx bx-sm bxs-dollar-circle"></i></label>
+                            <input type="number" name="book_price" id="book_price" placeholder="Book price . . . ." class="w-[100%] text-xl bg-gray-100 border-none outline-none h-[40px] pr-5">
+                        </div>
+                        <div class="form-input bg-gray-100 p-4 w-[100%] rounded-xl mt-4 mb-4 relative basis-[49%]">
+                            <label for="book_discount" class="absolute right-0 p-3 text-xl"><i class="bx bx-sm bxs-discount"></i></label>
+                            <select name="book_discount" id="book_discount" placeholder="Discount in percent . . . ." class="w-[100%] text-xl bg-gray-100 border-none outline-none h-[40px] pr-5">
+                                <option selected disabled value="">Choose discount amount.</option>
+                                <option name="book_discount" value="5">5%</option>
+                                <option name="book_discount" value="10">10%</option>
+                                <option name="book_discount" value="15">15%</option>
+                                <option name="book_discount" value="20">20%</option>
+                                <option name="book_discount" value="25">25%</option>
+                                <option name="book_discount" value="30">30%</option>
+                                <option name="book_discount" value="35">35%</option>
+                                <option name="book_discount" value="40">40%</option>
+                                <option name="book_discount" value="45">45%</option>
+                                <option name="book_discount" value="50">50%</option>
+                            </select>
+                        </div>
+                        <div class="form-input bg-gray-100 p-4 w-[100%] rounded-xl mt-4 mb-4 relative basis-[49%]">
+                            <label for="book_location" class="absolute right-0 p-3 text-xl"><i class="bx bx-sm bx-map-pin"></i></label>
+                            <input type="text" name="book_location" id="book_location" placeholder="Location of Book . . . . . ." class="w-[100%] text-xl bg-gray-100 border-none outline-none h-[40px] pr-5" maxlength='20'>
+                        </div>
+                        <div class="form-input bg-gray-100 p-4 w-[100%] rounded-xl mt-4 mb-4 relative">
+                            <input type="file" accept="image/*" name="book_cover" id="book_cover" class="dropify" required data-height="300" data-show-loader="true" data-show-errors="true"
+                            data-allowed-file-extensions="jpg png jpeg gif" data-max-file-size="2M" data-show-remove="true">Upload Book Cover Picture (.jpg, .png, .jpeg, .gif, .webp format less than 2mb).</label>
+                        </div>
+                        <button type="submit" class="form-input bg-green-500 hover:bg-green-400 p-4 w-[100%] rounded-xl mt-4 mb-4 relative basis-[15%] text-xl font-bold">
+                            Add Now
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    $('.dropify').dropify(
+                        {
+                            messages: {
+                                'default': 'Drag and drop a file here or click',
+                                'replace': 'Drag and drop or click to replace',
+                                'remove': 'Remove',
+                                'error': 'Ooops, something wrong happended.'
+                            },
+                            error: {
+                                'fileSize': 'The file size is too big (2Mb max).',
+                                'imageFormat': 'The image format is not allowed (png, gif, jpg, jpeg only).'
+                            }
+                        }
+                    )
+                })
+                drEvent.on('dropify.beforeClear', function (event, element) {
+                    return confirm("Do you really want to delete \"" + element.filename + "\" ?");
+                });
+            </script>
+{% endblock body %}

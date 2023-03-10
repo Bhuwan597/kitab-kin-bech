@@ -32,7 +32,7 @@ def Registration(request):
         try:
             user_exists = UserProfile.objects.get(email=email)
             if user_exists:
-                return HttpResponse("User Already Exists")
+                return HttpResponse("<h1>User Already Exists</h1>")
         except:
             pass
   
@@ -89,7 +89,7 @@ def Registration(request):
 
 
         #HTTP Response
-        return HttpResponse("Saved")
+        return render(request,'account_verified_template.html',{'name':name,'date_time':datetime.now().strftime("%d/%m/%Y %H:%M:%S"),'title':'Account Registration', 'type':'Registered'})
 
     else:
         return HttpResponse("Access Denied")
@@ -126,6 +126,9 @@ def handleLogin(request):
         try: 
             user = UserProfile.objects.get(email = email)
             if user:
+                if user.status  != 'active':
+                    messages.error(request,'Confirm you account first!')
+                    return redirect('/login') 
                 flag = check_password(password,user.password)
                 if flag:
                     request.session['name'] = user.name
@@ -134,15 +137,78 @@ def handleLogin(request):
                     request.session['address'] = user.address
                     if user.is_seller  == "True":                                   
                         request.session['is_seller'] = user.is_seller                    
+                        request.session['seller_slug'] = user.seller_slug                    
                     return redirect('/')               
                 else:
-                    messages.error(request,'Invalid Credentials 1!')
+                    messages.error(request,'Invalid Credentials!')
                     return redirect('/login') 
             else:
-                messages.error(request,'Invalid Credentials 2!')
+                messages.error(request,'Invalid Credentials!')
                 return redirect('/login')  
         except:
-            messages.error(request,'Invalid Credentials 3!')
+            messages.error(request,'Invalid Credentials!')
             return redirect('/login')
     else:
         return HttpResponse("Access Denied!")
+    
+def handlePasswordReset(request):
+    try:
+        if request.session['name'] and request.session['email']:
+            return redirect('/logout')
+    except:
+        pass
+    if request.method == "POST":
+        reset_email = request.POST.get('reset_email')
+        try:
+            regenerated_token = secrets.token_hex(24)
+            user_exists = UserProfile.objects.get(email = reset_email)
+            user_exists.token = regenerated_token
+            user_exists.status = 'inactive'
+            user_exists.save()
+
+            # sending email for confirmation
+            subject = 'Password Reset - KitabKinBech.com'
+            from_email = 'KitabKinBech.com'
+            html_content = render_to_string('password_reset_email.html',{'token':regenerated_token})
+            text_content = strip_tags(html_content)
+            msg = EmailMultiAlternatives(subject,text_content,from_email,[reset_email])
+            msg.attach_alternative(html_content,'text/html')
+            msg.send()
+            return HttpResponse('<h2>Check your email account to reset password.</h2>')
+        except:
+            messages.error(request,'User not found!')
+            return redirect('/login')
+    else:
+        return HttpResponse('Access Denied!')
+    
+
+def passwordRestConfirmation(request):
+    try:
+        if request.session['name'] and request.session['email']:
+            return redirect('/logout')
+    except:
+        pass
+    if request.method == "POST":
+        reset_password = request.POST.get('reset_password')
+        get_token = request.POST.get('reset_token')
+        try:
+            user = UserProfile.objects.get(token = get_token)
+            if user:
+                hashed_password = make_password(reset_password)
+                user.password = hashed_password
+                user.token = '0'
+                user.status = 'active'
+                user.save()
+                return redirect('/login')
+            else:
+                return HttpResponse('<h1>Access Denied!</h1>')
+        except:
+            return HttpResponse('<h1>Access Denied!</h1>')   
+    else:
+        try:
+            reset_token = request.GET['verify_token']
+            user = UserProfile.objects.get(token = reset_token)
+            return render(request,'password_reset.html',{'name':user.name,'date_time':datetime.now().strftime("%d/%m/%Y %H:%M:%S"),'title':'Password Reset', 'type':'Reset','token':reset_token})
+        except:
+            return HttpResponse('<h1>Access Denied!</h1>')
+    return HttpResponse('<h1>Access Denied!</h1>')

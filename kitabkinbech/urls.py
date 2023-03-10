@@ -9,5 +9,5 @@ import authenticate
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls'), name='home'),
-    path('authenticate', include('authenticate.urls'), name='authenticate')
+    path('authenticate', include('authenticate.urls'), name='authenticate'),
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

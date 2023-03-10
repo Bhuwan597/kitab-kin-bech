@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authenticate',
     'dashboard',
-    'home'
+    'home',
+    'django_social_share',
+    'django.contrib.sites',
 ]
 
 MIDDLEWARE = [
